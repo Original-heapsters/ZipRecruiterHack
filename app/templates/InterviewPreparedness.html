@@ -1,0 +1,27 @@
+{% extends "layout.html" %} {% block body %}
+<div class=main>
+    <center>
+      <h1>InterviewPreparedness</h1>
+    </center>
+    {% if args is not none %}
+      {% for arg in args %}
+        <p> {{ arg }} </p>
+      {% endfor %}
+    {% endif %}
+
+    IMAGE RECOGNITION DATA GOES HERE
+</div>
+<div class=aside>
+    <h3>Config data</h3>
+    <form method="post" action="{{ url_for('InterviewPreparedness') }}">
+        First name:<br>
+        <input type="text" name="firstname">
+        <br> Last name:<br>
+        <input type="text" name="lastname">
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+</div>
+
+
+{% endblock %}
