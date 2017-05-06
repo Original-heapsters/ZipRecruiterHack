@@ -1,0 +1,167 @@
+{
+    "outputs": [
+        {
+            "created_at": "2017-05-06T17:35:44.340738182Z",
+            "data": {
+                "concepts": [
+                    {
+                        "app_id": "",
+                        "id": "ai_RQccV41p",
+                        "name": "woman",
+                        "value": 0.9943005
+                    },
+                    {
+                        "app_id": "",
+                        "id": "ai_xQbBc1zb",
+                        "name": "girl",
+                        "value": 0.97227144
+                    },
+                    {
+                        "app_id": "",
+                        "id": "ai_TJ9wFfK5",
+                        "name": "portrait",
+                        "value": 0.9715778
+                    },
+                    {
+                        "app_id": "",
+                        "id": "ai_l8TKp2h5",
+                        "name": "people",
+                        "value": 0.96910053
+                    },
+                    {
+                        "app_id": "",
+                        "id": "ai_PSNh6rKx",
+                        "name": "bikini",
+                        "value": 0.9603002
+                    },
+                    {
+                        "app_id": "",
+                        "id": "ai_dngMN46t",
+                        "name": "fashion",
+                        "value": 0.96020037
+                    },
+                    {
+                        "app_id": "",
+                        "id": "ai_rpx8H4Mn",
+                        "name": "sexy",
+                        "value": 0.95624745
+                    },
+                    {
+                        "app_id": "",
+                        "id": "ai_5B7J7fdF",
+                        "name": "model",
+                        "value": 0.9551071
+                    },
+                    {
+                        "app_id": "",
+                        "id": "ai_VPmHr5bm",
+                        "name": "adult",
+                        "value": 0.95282483
+                    },
+                    {
+                        "app_id": "",
+                        "id": "ai_GxSDhQ34",
+                        "name": "facial expression",
+                        "value": 0.95229566
+                    },
+                    {
+                        "app_id": "",
+                        "id": "ai_SVshtN54",
+                        "name": "one",
+                        "value": 0.945516
+                    },
+                    {
+                        "app_id": "",
+                        "id": "ai_DhL7ZR9b",
+                        "name": "lingerie",
+                        "value": 0.9368509
+                    },
+                    {
+                        "app_id": "",
+                        "id": "ai_86sS08Pw",
+                        "name": "wear",
+                        "value": 0.9353224
+                    },
+                    {
+                        "app_id": "",
+                        "id": "ai_6GcDNMDV",
+                        "name": "blond",
+                        "value": 0.92470133
+                    },
+                    {
+                        "app_id": "",
+                        "id": "ai_DqkHZlVW",
+                        "name": "relaxation",
+                        "value": 0.90512776
+                    },
+                    {
+                        "app_id": "",
+                        "id": "ai_FsT0Zqdb",
+                        "name": "summer",
+                        "value": 0.9013548
+                    },
+                    {
+                        "app_id": "",
+                        "id": "ai_Tr4Ws1jL",
+                        "name": "reclining",
+                        "value": 0.89936644
+                    },
+                    {
+                        "app_id": "",
+                        "id": "ai_1PMps251",
+                        "name": "brunette",
+                        "value": 0.8968466
+                    },
+                    {
+                        "app_id": "",
+                        "id": "ai_V1FjkFXr",
+                        "name": "leisure",
+                        "value": 0.8924265
+                    },
+                    {
+                        "app_id": "",
+                        "id": "ai_c9n7SB25",
+                        "name": "furniture",
+                        "value": 0.8875574
+                    }
+                ]
+            },
+            "id": "aeb26e2790ad4d43985b2a31e4041a0e",
+            "input": {
+                "data": {
+                    "image": {
+                        "url": "https://www.sashapua.com/wp-content/uploads/2010/10/hooker-610x360.jpg"
+                    }
+                },
+                "id": "b285fcbd6ada41e59b5f37f95b7c63a1"
+            },
+            "model": {
+                "app_id": "",
+                "created_at": "2016-03-09T17:11:39.608845Z",
+                "id": "aaa03c23b3724a16a56b629203edc62c",
+                "model_version": {
+                    "created_at": "2016-07-13T01:19:12.147644Z",
+                    "id": "aa9ca48295b37401f8af92ad1af0d91d",
+                    "status": {
+                        "code": 21100,
+                        "description": "Model trained successfully"
+                    }
+                },
+                "name": "general-v1.3",
+                "output_info": {
+                    "message": "Show output_info with: GET /models/{model_id}/output_info",
+                    "type": "concept",
+                    "type_ext": "concept"
+                }
+            },
+            "status": {
+                "code": 10000,
+                "description": "Ok"
+            }
+        }
+    ],
+    "status": {
+        "code": 10000,
+        "description": "Ok"
+    }
+}

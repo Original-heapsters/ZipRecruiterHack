@@ -1,6 +1,8 @@
 import os
 import json
+import clarif
 from flask import Flask, render_template, request, g, session, url_for, redirect
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 UPLOAD_FOLDER = './static/uploads/'
@@ -23,9 +25,29 @@ def InterviewPreparedness():
         args = []
         args.append(request.form['firstname'])
         args.append(request.form['lastname'])
-        return render_template('InterviewPreparedness.html', args=args)
+
+        if 'image' in request.files:
+            file = request.files['image']
+            filename = secure_filename(file.filename)
+            fileFullName = filename
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            print fileFullName
+             #url_for('static/bootstrap', filename='bootstrap.min.css')
+            curdur = os.getcwd()
+            jsonTags = clarif.doStuffWithURL(curdur + '/static/uploads/' + fileFullName)
+            #imageURL = clarif.getImageURL(fileFullName)
+            conceptDict = clarif.getConceptsWithConfidence(jsonTags)
+            return render_template('InterviewPreparedness.html', conceptDict=conceptDict, args=args)
+        else:
+            return render_template('InterviewPreparedness.html', args=args)
     else:
-        return render_template('InterviewPreparedness.html')
+        #jsonTags = clarif.doStuff()
+
+        #imageURL = clarif.getImageURL(jsonTags)
+        #conceptDict = clarif.getConceptsWithConfidence(jsonTags)
+
+        #return render_template('InterviewPreparedness.html',imageURL=imageURL,conceptDict=conceptDict)
+        return render_template('InterviewPreparedness.html')#,conceptDict=conceptDict)
 
 @app.route('/ResumeRating', methods=['GET','POST'])
 def ResumeRating():
