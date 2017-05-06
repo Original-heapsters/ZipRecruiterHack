@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>iDealStor</title>
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/custom.css') }}">
+    <link href="http://fonts.googleapis.com/css?family=Corben:bold" rel="stylesheet" type="text/css">
+ <link href="http://fonts.googleapis.com/css?family=Nobile" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+
+<body>
+    <div class=header>
+        <div class=container>
+            <h1 class=header-heading>
+              <a href="{{ url_for('type_of_food') }}">
+              <img href="{{ url_for('index') }}" src="{{ url_for('static', filename='icon.png')}}">
+              </a>
+              iDealStor
+            </h1>
+        </div>
+    </div>
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="{{ url_for('type_of_food') }}">Type of Food</a></li>
+                    <li><a href="{{ url_for('storage_location') }}">Storage Location</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class=content>
+        <div class=container>
+            {% block body %}{% endblock %}
+        </div>
+    </div>
+    </div>
+</body>
+<div class=footer>
+    <div class=container>
+        &copy; ORIGINAL HEAPSTERS Copyright 2017
+    </div>
+</div>
+<html>
