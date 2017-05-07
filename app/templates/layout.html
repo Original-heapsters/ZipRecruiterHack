@@ -3,44 +3,29 @@
 
 <head>
     <title>ZipRecruiterHack</title>
-    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/custom.css') }}">
-    <link href="http://fonts.googleapis.com/css?family=Corben:bold" rel="stylesheet" type="text/css">
- <link href="http://fonts.googleapis.com/css?family=Nobile" rel="stylesheet" type="text/css">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 
 <body>
-    <div class=header>
-        <div class=container>
-            <h1 class=header-heading>
-              <img href="{{ url_for('index') }}" src="{{ url_for('static', filename='icon.png')}}">
-              </a>
-              Ziprecruiter
-            </h1>
-        </div>
-    </div>
-    <nav class="navbar navbar-default" role="navigation">
-        <div class="container-fluid">
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li><a href="{{ url_for('InterviewPreparedness') }}">Interview Preparedness</a></li>
-                    <li><a href="{{ url_for('ResumeRating') }}">Resume Rating</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <div class=content>
-        <div class=container>
-            {% block body %}{% endblock %}
-        </div>
-    </div>
-    </div>
-</body>
-<div class=footer>
-    <div class=container>
-        &copy; ORIGINAL HEAPSTERS Copyright 2017
-    </div>
+  <!--<img href="{{ url_for('index') }}" src="{{ url_for('static', filename='icon.png')}}" style="float:left;">-->
+  <div id="header">
+      <!--<h1>JohtZee</h1>-->
+      <img href="{{ url_for('index') }}" src="{{ url_for('static', filename='header.png')}}" style="width:100%;">
+  </div>
+
+  <div class="w3-sidebar w3-black w3-bar-block" style="width:15%">
+    <img href="{{ url_for('index') }}" src="{{ url_for('static', filename='profile.png')}}" style="width:100%;">
+    <a class="w3-bar-item w3-button" href="{{ url_for('index') }}" class="">Dashboard</a>
+    <a class="w3-bar-item w3-button" href="{{ url_for('JobListing') }}" class="">Notifications</a>
+    <a class="w3-bar-item w3-button" href="{{ url_for('ResumeRating') }}" class="">Upload Resume</a>
+    <a class="w3-bar-item w3-button" href="{{ url_for('InterviewPreparedness') }}" class="">Upload Images</a>
+    <a class="w3-bar-item w3-button" href="{{ url_for('JobListing') }}" class="">Job Listings</a>
+    <a class="w3-bar-item w3-button" href="{{ url_for('InterviewPreparedness') }}" class="">Success Chart</a>
+    <a class="w3-bar-item w3-button" href="{{ url_for('ResumeRating') }}" class="">Account Settings</a>
+  </div>
+  <div style="margin-left:17%">
+  {% block body %}{% endblock %}
 </div>
+</body>
 <html>

@@ -1,0 +1,3 @@
+resume:89
+job:95
+interview:50

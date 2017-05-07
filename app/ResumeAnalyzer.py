@@ -24,8 +24,16 @@ eduLevels['doctorate'] = 4
 def getResumeJSON(inputPath):
 
     home = os.getcwd()
-    outfile = home + '/static/ResumeJSON/out.json'
-    command = 'sh ~/git/ResumeParser/ResumeTransducer/CreateJSON.sh ' + inputPath + ' ' + outfile
+    if isWindows():
+        outfile = os.path.join(home + '\static\ResumeJSON\out.json')
+        temp = inputPath.rfind("uploads")
+        filename = inputPath[temp+7:]
+        print filename
+        inputPath = os.path.join(home + '\static\uploads\\' + filename)
+        command = 'powershell ' + home + '\..\..\ResumeParser\ResumeTransducer\createJSON_Win.ps1 ' + inputPath + ' ' + outfile
+    else:
+        outfile = os.path.join(home + 'static/ResumeJSON/out.json')
+        command = 'sh ' + home + '../../ResumeParser/ResumeTransducer/CreateJSON.sh ' + inputPath + ' ' + outfile
     os.system(command)
 
     with open(outfile) as data_file:
@@ -137,3 +145,11 @@ def writeAnalysis(missingComps, contribution, workExp, sentiments, skills,educat
         write.write('education_level:'+ str(education) + '\n')
 
     return
+
+def isWindows():
+    name = os.name
+
+    if 'nt' in name:
+        return True
+    else:
+        return False

@@ -1,23 +1,52 @@
 {% extends "layout.html" %} {% block body %}
-<div class=main>
-    <h1>Index</h1>
-    {% if args is not none %}
-      {% for arg in args %}
-        <p> {{ arg }} </p>
-      {% endfor %}
-    {% endif %}
-</div>
-<div class=aside>
-    <h3>Config data</h3>
-    <form method="post" action="{{ url_for('index') }}">
-        First name:<br>
-        <input type="text" name="firstname">
-        <br> Last name:<br>
-        <input type="text" name="lastname">
-        <br>
-        <input type="submit" value="Submit">
-    </form>
-</div>
-
-
-{% endblock %}
+<center>
+    <img href="{{ url_for('index') }}" src="{{ url_for('static', filename='whattodo.png')}}">
+</center>
+<br>
+<br>
+<center>
+    <table>
+        <tr>
+            <td style="padding:0 50px 0 50px;">
+                <div class="w3-card-4" style="width:100%">
+                    <div class="w3-container">
+                        <h2 style="color:#368EE0;text-align:right;">Resume Score</h2>
+                        <h3 style="color:#368EE0;text-align:right;"><a href="{{ url_for('UploadResume') }}">Scan for edits!</a></h3>
+                        <hr>
+                        <img src="{{ url_for('static', filename='world.png')}}" alt="Resume" class="w3-left w3-circle w3-margin-right" style="width:100px">
+                        <h3 style="color:#368EE0;text-align:right;">{{ resScore }}%</h3>
+                        <br>
+                    </div>
+                    <img href="{{ url_for('index') }}" src="{{ url_for('static', filename='resumeUpload.png')}}" style="width:100%">
+                </div>
+            </td>
+            <td style="padding:0 50px 0 50px;">
+                <div class="w3-card-4" style="width:100%">
+                    <div class="w3-container">
+                        <h2 style="color:#F33D2C;text-align:right;">Apply for a Job</h2>
+                        <h3 style="color:#F33D2C;text-align:right;"><a href="{{ url_for('JobListing') }}">Run Job Generator!</a></h3>
+                        <hr>
+                        <img src="{{ url_for('static', filename='people.png')}}" alt="Resume" class="w3-left w3-circle w3-margin-right" style="width:100px">
+                        <h3 style="color:#F33D2C;text-align:right;">{{ jobScore }}%</h3>
+                        <br>
+                    </div>
+                    <img href="{{ url_for('index') }}" src="{{ url_for('static', filename='apply.png')}}" style="width:100%">
+                </div>
+            </td>
+            <td style="padding:0 50px 0 50px;">
+                <div class="w3-card-4" style="width:100%">
+                    <div class="w3-container">
+                        <h2 style="color:#47A947;text-align:right;">Go Interview</h2>
+                        <h3 style="color:#47A947;text-align:right;"><a href="{{ url_for('InterviewPreparedness') }}">Upload today's outfit!</a></h3>
+                        <hr>
+                        <img src="{{ url_for('static', filename='download.png')}}" alt="Resume" class="w3-left w3-circle w3-margin-right" style="width:100px">
+                        <h3 style="color:#47A947;text-align:right;">{{ interViewScore }}%</h3>
+                        <br>
+                    </div>
+                    <img href="{{ url_for('index') }}" src="{{ url_for('static', filename='pictures.png')}}" style="width:100%">
+                </div>
+            </td>
+        </tr>
+    </table>
+</center>
+{%endblock%}
