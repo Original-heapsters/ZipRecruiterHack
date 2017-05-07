@@ -1,2 +1,4 @@
 app/Config.py
 app/Config.pyc
+app/static/uploads
+app/static/ResumeJSON
