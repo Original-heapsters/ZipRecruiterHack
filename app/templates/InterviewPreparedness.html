@@ -20,12 +20,18 @@
             </tr>
         </table>
     </form>
-    {% if conceptDictList is not none %}
+    {% if conceptDictList|length > 0 %}
       {% for item in conceptDictList %}
         {% for arg in item %}
           <p> Tag: {{ arg }} </p>
           <p> Confidence: {{ item[arg] }} </p>
         {% endfor %}
+      {% endfor %}
+    {% endif %}
+
+    {% if imgs|length > 0 %}
+      {% for im in imgs %}
+        <img src="{{im}}" style="width:300px;"/>
       {% endfor %}
     {% endif %}
 </center>

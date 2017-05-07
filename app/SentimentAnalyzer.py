@@ -53,8 +53,9 @@ def requestCompleted(response, **context):
             aggregate = payloadObj["aggregate"]
             resp += "Aggregate:\n"
             resp += "Score: " + "%f " % (aggregate["score"]) + "\n"
-            sentiments += "sent_Overall_Score:" + "%f" % (aggregate["score"])
-            sentiments += ":sent_Overall_Sentiment:" + aggregate["sentiment"]
+            sentiments += "sent_Overall_Sentiment:" + aggregate["sentiment"]
+            sentiments += ":sent_Overall_Score:" + "%f" % (aggregate["score"])
+
             resp += aggregate["sentiment"]
     return
 

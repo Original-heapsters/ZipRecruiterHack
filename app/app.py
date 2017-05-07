@@ -45,6 +45,7 @@ def index():
 def InterviewPreparedness():
     if request.method == 'POST':
         if 'image' in request.files:
+            ClearUploadsDir()
             category = request.form['category']
             conceptDictList = []
             files = request.files.getlist('image')
@@ -55,15 +56,27 @@ def InterviewPreparedness():
                 jsonTags = clarif.doStuffWithURL(os.path.join(app.config['UPLOAD_FOLDER'], filename))
                 conceptDict = clarif.getConceptsWithConfidence(jsonTags)
                 conceptDictList.append(conceptDict)
-            return render_template('InterviewPreparedness.html', conceptDictList=conceptDictList)
+
+            names = os.listdir(os.path.join(app.static_folder, 'uploads'))
+            imgs = []
+            for name in names:
+                img_url = url_for('static', filename=os.path.join('uploads/', name))
+                imgs.append(img_url)
+            return render_template('InterviewPreparedness.html', conceptDictList=conceptDictList, imgs=imgs)
         else:
             return render_template('InterviewPreparedness.html')
     else:
-        return render_template('InterviewPreparedness.html')
+        names = os.listdir(os.path.join(app.static_folder, 'uploads'))
+        imgs = []
+        for name in names:
+            img_url = url_for('static', filename=os.path.join('uploads/', name))
+            imgs.append(img_url)
+        return render_template('InterviewPreparedness.html', imgs=imgs)
 
 @app.route('/ResumeRating', methods=['GET','POST'])
 def ResumeRating():
     highSentimentThresh = .90
+    highSentimentThresh = .40
     resScore = '0'
     lastKnownFile = os.path.join('static/lastKnown.txt')
     with open (lastKnownFile) as f:
@@ -89,8 +102,12 @@ def ResumeRating():
             splits = line.split(':')
             if 'missing' in splits[0] and 'missing_points' not in splits[0]:
                 basicInfo.append(splits[1])
-            if 'sent' in splits[0]:
-                updated = splits[1]
+            if 'sent' in splits[0] and '_Overall' not in splits[0]:
+                if float(splits[3]) > highSentimentThresh:
+                    highSents[splits[1]] = splits[3]
+                elif float(splits[3]) < lowSentimentThresh:
+                    sent[splits[1]] = splits[3]
+
             if 'skill' in splits[0]:
                 if len(topSkills) < 5:
                     topSkills.append(splits[1])
@@ -157,6 +174,16 @@ def UploadResume():
 def JobListing():
     return render_template('JobListing.html')
 
+def ClearUploadsDir():
+    folder = 'static/uploads'
+    for the_file in os.listdir(folder):
+        file_path = os.path.join(folder, the_file)
+        try:
+            if os.path.isfile(file_path):
+                os.unlink(file_path)
+            #elif os.path.isdir(file_path): shutil.rmtree(file_path)
+        except Exception as e:
+            print(e)
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS

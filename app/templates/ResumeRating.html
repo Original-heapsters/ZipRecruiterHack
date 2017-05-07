@@ -27,7 +27,7 @@
                       {% if highSents|length > 0 %}
                         <h2 style="color:#3F48DD">Sentences with a high sentiment:</h2>
                         {% for senti in highSents %}
-                          <h3 style="color:#3F48DD">{{ senti }}</h3>
+                          <h3 style="color:#3F48DD">"...{{ senti }}"</h3>
                         {% endfor %}
                       {% endif %}
                       {% if topSkills|length > 0 %}
@@ -67,7 +67,7 @@
                       <h2 style="color:#3F48DD">Sentiment:</h2>
                       <h3 style="color:#3F48DD">Consider changing these sentences</h3>
                       {% for badSent in sent %}
-                        <h3 style="color:#3F48DD">{{ badSent }}</h3>
+                        <h3 style="color:#3F48DD">"...{{ badSent }}""</h3>
                       {% endfor %}
                     {% endif %}
                     {%if workExp is not none %}
