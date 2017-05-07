@@ -9,11 +9,12 @@
 </div>
 <div class=aside>
     <h3>Config data</h3>
-    <form method="post" action="{{ url_for('ResumeRating') }}">
+    <form method="post" action="{{ url_for('ResumeRating') }}" enctype=multipart/form-data>
         First name:<br>
         <input type="text" name="firstname">
         <br> Last name:<br>
         <input type="text" name="lastname">
+        <input type="file" name="resume">
         <br>
         <input type="submit" value="Submit">
     </form>
