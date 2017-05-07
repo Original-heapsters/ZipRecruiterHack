@@ -26,7 +26,6 @@ def index():
     jobScore = '0'
     interViewScore = '0'
     lastKnownFile = os.path.join('static/lastKnown.txt')
-    print lastKnownFile
     with open (lastKnownFile) as f:
         for line in f.readlines():
             splits = line.split(':')
@@ -64,11 +63,72 @@ def InterviewPreparedness():
 
 @app.route('/ResumeRating', methods=['GET','POST'])
 def ResumeRating():
+    highSentimentThresh = .90
+    resScore = '0'
+    lastKnownFile = os.path.join('static/lastKnown.txt')
+    with open (lastKnownFile) as f:
+        for line in f.readlines():
+            splits = line.split(':')
+            if 'resume' in splits[0]:
+                resScore = splits[1]
+            if 'update' in splits[0]:
+                updated = splits[1]
+        f.close()
+
+    highSents = {}
+    topSkills = []
+    basicInfo = []
+    skills = []
+    sent = {}
+    edu = None
+    workExp = None
+    ResumeAnalysis = os.path.join('static/ResumeJSON/ResumeAnalysis.txt')
+
+    with open(ResumeAnalysis, 'r') as res:
+        for line in res.readlines():
+            splits = line.split(':')
+            if 'missing' in splits[0] and 'missing_points' not in splits[0]:
+                basicInfo.append(splits[1])
+            if 'sent' in splits[0]:
+                updated = splits[1]
+            if 'skill' in splits[0]:
+                if len(topSkills) < 5:
+                    topSkills.append(splits[1])
+            if 'work_experience' in splits[0]:
+                message = ''
+                count = int(splits[1])
+                if count < 0:
+                    message = 'You should remove or trim ' + str(abs(count)) + ' work experince entries.'
+                else:
+                    message = 'You might want to add ' + str(abs(count)) + ' work experince entries.'
+                workExp = message
+            if 'education_level' in splits[0]:
+                if int(splits[1]) <= 0:
+                    edu = 'could not parse education'
+
+
+    #
+    # highSents['sentiment'] = '99%'
+    # topSkills=['cool', 'alright']
+    # basicInfo=['address','firstname']
+    # skills=['cool', 'alright']
+    # edu='Could not parse'
+    # sent['sentiment'] = '-50%'
+
     if request.method == 'POST':
-        return render_template('ResumeRating.html', args=args)
+        return render_template('ResumeRating.html')
 
     else:
-        return render_template('ResumeRating.html')
+        return render_template('ResumeRating.html',
+        updated=updated,
+        resScore=resScore,
+        highSents=highSents,
+        topSkills=topSkills,
+        basicInfo=basicInfo,
+        skills=skills,
+        edu=edu,
+        sent=sent,
+        workExp=workExp)
 
 @app.route('/UploadResume', methods=['GET','POST'])
 def UploadResume():

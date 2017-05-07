@@ -1,4 +1,5 @@
 import os
+import time
 
 totalResumeScore = 0
 sentimentThreshold = .50
@@ -95,9 +96,31 @@ def pullComponents():
 
 
     print "You scored " + str(totalResumeScore) + " Which is " + str(rec_pct) + "%"
+    updateScores('resume',str(rec_pct))
     return totalResumeScore
 
 
+def updateScores(keyVar, value):
+    newLines = []
+    print (time.strftime("%I:%M:%S"))
+    with open('static/lastKnown.txt', 'r') as f:
+        for line in  f.readlines():
+            if keyVar in line:
+                spl = line.split(':')
+                k = spl[0]
+                newLines.append(k + ':' + value)
+            elif 'update' in line:
+                print '.'
+            else:
+                newLines.append(line)
+        f.close()
+    open('static/lastKnown.txt', 'w').close()
+    with open('static/lastKnown.txt', 'w') as f:
+        f.write('update:' + time.strftime("%d/%m/%Y_") + time.strftime("%I-%M-%S") + '\n')
+        for line in newLines:
+            f.write(line.strip() + '\n')
+        f.close()
+    return
 
 def scoreResume():
     return

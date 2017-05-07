@@ -1,3 +1,4 @@
-resume:89
-job:95
-interview:50
+update:07/05/2017_04-17-59
+resume:70.0
+job:99.0
+interview:56.0

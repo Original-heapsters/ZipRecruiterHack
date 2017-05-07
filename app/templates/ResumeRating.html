@@ -4,9 +4,9 @@
     <div class="boxed">
         <table>
             <tr>
-                <td style="padding:0 20px 0 20px;"> Overall Score: </td>
+                <td style="padding:0 20px 0 20px;"> Overall Score: {{ resScore }}%</td>
                 <td style="padding:0 20px 0 20px;"><a href="{{ url_for('UploadResume') }}"> Load Revised Resume</a></td>
-                <td style="padding:0 20px 0 20px;"> Last Run </td>
+                <td style="padding:0 20px 0 20px;"> Last Run: {{ updated }}</td>
             </tr>
         </table>
     </div>
@@ -24,8 +24,18 @@
                       </center>
                     </header>
                     <div class="w3-container">
-                      <h2 style="color:#3F48DD">Sentences with a high sentiment:</h2>
-                      <h2 style="color:#3F48DD">Top skills found:</h2>
+                      {% if highSents|length > 0 %}
+                        <h2 style="color:#3F48DD">Sentences with a high sentiment:</h2>
+                        {% for senti in highSents %}
+                          <h3 style="color:#3F48DD">{{ senti }}</h3>
+                        {% endfor %}
+                      {% endif %}
+                      {% if topSkills|length > 0 %}
+                        <h2 style="color:#3F48DD">Top skills found:</h2>
+                        {% for tSkill in topSkills %}
+                          <h3 style="color:#3F48DD">{{ tSkill }}</h3>
+                        {% endfor %}
+                      {% endif %}
                     </div>
                 </div>
             </td>
@@ -37,12 +47,33 @@
                     </center>
                   </header>
                   <div class="w3-container">
-                    <h2 style="color:#3F48DD">Basic Information:</h2>
-                    <h2 style="color:#3F48DD">Skills:</h2>
-                    <h2 style="color:#3F48DD">Education:</h2>
-                    <h2 style="color:#3F48DD">Sentiment:</h2>
-                    <h2 style="color:#3F48DD">Work Experience:</h2>
-                    <h2 style="color:#3F48DD">Grammar:</h2>
+                    {%if basicInfo|length > 0 %}
+                      <h2 style="color:#3F48DD">Basic Information:</h2>
+                      {% for info in basicInfo %}
+                        <h3 style="color:#3F48DD">Missing {{ info }}</h3>
+                      {% endfor %}
+                    {% endif %}
+                    {%if skills|length > 0 %}
+                      <h2 style="color:#3F48DD">Skills:</h2>
+                      {% for sk in skills %}
+                        <h3 style="color:#3F48DD">{{ sk }}</h3>
+                      {% endfor %}
+                    {% endif %}
+                    {%if edu is not none %}
+                      <h2 style="color:#3F48DD">Education:</h2>
+                        <h3 style="color:#3F48DD">{{ edu }}</h3>
+                    {% endif %}
+                    {% if sent|length > 0 %}
+                      <h2 style="color:#3F48DD">Sentiment:</h2>
+                      <h3 style="color:#3F48DD">Consider changing these sentences</h3>
+                      {% for badSent in sent %}
+                        <h3 style="color:#3F48DD">{{ badSent }}</h3>
+                      {% endfor %}
+                    {% endif %}
+                    {%if workExp is not none %}
+                      <h2 style="color:#3F48DD">Work Experience:</h2>
+                      <h3 style="color:#3F48DD">{{ workExp  }}</h3>
+                    {% endif %}
                   </div>
               </div>
             </td>
