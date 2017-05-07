@@ -1,8 +1,10 @@
 import os
 import json
+import time
 import pprint
 import clarif
 import JobScorer
+import operator
 import ResumeAnalyzer as res
 from flask import Flask, render_template, request, g, session, url_for, redirect
 from werkzeug.utils import secure_filename
@@ -25,6 +27,18 @@ def index():
     resScore = '0'
     jobScore = '0'
     interViewScore = '0'
+    max_num = 0
+    curr_num = 0
+    matches = 'matches.txt'
+    with open(matches, 'r') as matchFile:
+        for line in matchFile.readlines():
+            splits = line.split(':')
+            curr_num = int(splits[1])
+            if curr_num > max_num:
+                max_num = curr_num
+            splits = line.split(':')
+    updateScores('job',max_num)
+
     lastKnownFile = os.path.join('static/lastKnown.txt')
     with open (lastKnownFile) as f:
         for line in f.readlines():
@@ -56,12 +70,22 @@ def InterviewPreparedness():
                 jsonTags = clarif.doStuffWithURL(os.path.join(app.config['UPLOAD_FOLDER'], filename))
                 conceptDict = clarif.getConceptsWithConfidence(jsonTags)
                 conceptDictList.append(conceptDict)
+            tags = 'tags.txt'
+            open(tags, 'w').close()
+            with open(tags, 'w') as tagFile:
+                for dic in conceptDictList:
+                    tagFile.writelines("\n".join(dic.keys()))
 
             names = os.listdir(os.path.join(app.static_folder, 'uploads'))
             imgs = []
             for name in names:
-                img_url = url_for('static', filename=os.path.join('uploads/', name))
-                imgs.append(img_url)
+                if 'jpg' in name or 'png' in name:
+                    img_url = url_for('static', filename=os.path.join('uploads/', name))
+                    imgs.append(img_url)
+
+            imageScore = scoreImages()
+
+            updateScores('interview',imageScore)
             return render_template('InterviewPreparedness.html', conceptDictList=conceptDictList, imgs=imgs)
         else:
             return render_template('InterviewPreparedness.html')
@@ -69,14 +93,15 @@ def InterviewPreparedness():
         names = os.listdir(os.path.join(app.static_folder, 'uploads'))
         imgs = []
         for name in names:
-            img_url = url_for('static', filename=os.path.join('uploads/', name))
-            imgs.append(img_url)
+            if 'jpg' in name or 'png' in name:
+                img_url = url_for('static', filename=os.path.join('uploads/', name))
+                imgs.append(img_url)
         return render_template('InterviewPreparedness.html', imgs=imgs)
 
 @app.route('/ResumeRating', methods=['GET','POST'])
 def ResumeRating():
     highSentimentThresh = .90
-    highSentimentThresh = .40
+    lowSentimentThresh = .40
     resScore = '0'
     lastKnownFile = os.path.join('static/lastKnown.txt')
     with open (lastKnownFile) as f:
@@ -117,7 +142,7 @@ def ResumeRating():
                 if count < 0:
                     message = 'You should remove or trim ' + str(abs(count)) + ' work experince entries.'
                 else:
-                    message = 'You might want to add ' + str(abs(count)) + ' work experince entries.'
+                    message = 'You might want to add ' + str(abs(count)) + ' work experience entries.'
                 workExp = message
             if 'education_level' in splits[0]:
                 if int(splits[1]) <= 0:
@@ -149,6 +174,7 @@ def ResumeRating():
 
 @app.route('/UploadResume', methods=['GET','POST'])
 def UploadResume():
+    JobScorer.scoreResume()
     if request.method == 'POST':
         if 'resume' in request.files:
             file = request.files['resume']
@@ -156,6 +182,7 @@ def UploadResume():
             fileFullName = filename
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             curdur = os.getcwd()
+            print 'trying to use this ' + os.path.join(app.config['UPLOAD_FOLDER']) + fileFullName
             ResumeJson = res.getResumeJSON(os.path.join(app.config['UPLOAD_FOLDER']) + fileFullName)
 
             with open(ResumeJson) as data_file:
@@ -172,7 +199,26 @@ def UploadResume():
 
 @app.route('/JobListing', methods=['GET','POST'])
 def JobListing():
-    return render_template('JobListing.html')
+    jobs = {}
+    max_num = 0
+    curr_num = 0
+    matches = 'matches.txt'
+    with open(matches, 'r') as matchFile:
+        for line in matchFile.readlines():
+            splits = line.split(':')
+            curr_num = int(splits[1])
+            if curr_num > max_num:
+                max_num = curr_num
+            splits = line.split(':')
+            jobs[splits[0]] = splits[1]
+    updateScores('job',max_num)
+    #jobs = sorted(jobs, key=jobs.__getitem__, reverse=True)
+    sorted_jobs = dict(sorted(jobs.items(), key=operator.itemgetter(1), reverse=True))
+    return render_template('JobListing.html',jobs=sorted_jobs)
+
+@app.route('/Settings', methods=['GET'])
+def Settings():
+    return render_template('Settings.html')
 
 def ClearUploadsDir():
     folder = 'static/uploads'
@@ -184,6 +230,52 @@ def ClearUploadsDir():
             #elif os.path.isdir(file_path): shutil.rmtree(file_path)
         except Exception as e:
             print(e)
+
+def scoreImages():
+    score = 0
+    good = 'goodAttributes.txt'
+    bad = 'badAttributes.txt'
+    tags = 'tags.txt'
+    goodAttr = []
+    with open(good, 'r') as goodFile:
+        for line in goodFile:
+            goodAttr.append(line)
+
+    badAttr = []
+    with open(bad, 'r') as badFile:
+        for line in badFile:
+            badAttr.append(line)
+
+    with open(tags, 'r') as tagFile:
+        for line in tagFile.readlines():
+            print 'comparing ' + line.lower() + ' with ' + good + ' and ' + bad
+            if line.lower() in goodAttr:
+                score += 1
+            if line.lower() in badAttr:
+                score -= 1
+    return score
+
+def updateScores(keyVar, value):
+    newLines = []
+    print (time.strftime("%I:%M:%S"))
+    with open('static/lastKnown.txt', 'r') as f:
+        for line in  f.readlines():
+            if keyVar in line:
+                spl = line.split(':')
+                k = spl[0]
+                newLines.append(k + ':' + str(value))
+            elif 'update' in line:
+                print '.'
+            else:
+                newLines.append(line)
+        f.close()
+    open('static/lastKnown.txt', 'w').close()
+    with open('static/lastKnown.txt', 'w') as f:
+        f.write('update:' + time.strftime("%d/%m/%Y_") + time.strftime("%I-%M-%S") + '\n')
+        for line in newLines:
+            f.write(line.strip() + '\n')
+        f.close()
+    return
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS

@@ -1,4 +1,5 @@
 import os
+import json
 import time
 
 totalResumeScore = 0
@@ -56,7 +57,7 @@ def pullComponents():
     rec_edits = 50
 
     if missingScore > 0:
-        rec_edits -= 1.6 * float(missingScore)
+        rec_edits -= abs(1.6 * float(missingScore))
     print rec_edits
 
     totalSubtraction = 10
@@ -123,4 +124,34 @@ def updateScores(keyVar, value):
     return
 
 def scoreResume():
+    RunningTotal = 0
+    ResumeJson = os.path.join('samplePosts.json')
+    ResumeText = os.path.join('ResumeText.txt')
+
+    with open(ResumeJson) as data_file:
+        data = json.load(data_file)
+
+    allWords = []
+
+    with open(ResumeText) as textFile:
+        for line in textFile.readlines():
+            for i in line.split(' '):
+                allWords.append(i)
+
+    unique_words = set()
+    for word in allWords:
+            unique_words.add(word)
+
+
+    matches = 'matches.txt'
+    open(matches, 'w').close()
+    with open(matches, 'w') as matchFile:
+        for post in data['posts']:
+            RunningTotal = 0
+            for werd in unique_words:
+                if werd.lower() in str(post).lower():
+                    RunningTotal += 1
+            print 'I found ' + str(RunningTotal) + ' words in common in ' + post['title']
+            matchFile.write(post['title'] + ':' + str(RunningTotal) + '\n')
+        matchFile.close()
     return

@@ -9,7 +9,7 @@
         <table>
             <tr>
                 <td>Category: </td>
-                <td><input type="text" name="category" value="Construction"></td>
+                <td><input type="text" name="category" value="Account Manager"></td>
             </tr>
             <tr>
                 <td>Choose photos: </td>
@@ -21,18 +21,35 @@
         </table>
     </form>
     {% if conceptDictList|length > 0 %}
-      {% for item in conceptDictList %}
-        {% for arg in item %}
-          <p> Tag: {{ arg }} </p>
-          <p> Confidence: {{ item[arg] }} </p>
-        {% endfor %}
+    {% if imgs|length > 0 %}
+    <table>
+      {% set count = 1 %}
+      {% for im in imgs %}
+        {% if loop.index0 % 3 == 0 %}
+          <tr>
+        {% endif %}
+        <td><img src="{{im}}" style="width:200px;"/></td>
+        {% if loop.index0 % 3 == 2 or loop.last %}
+          </tr>
+        {% endif %}
       {% endfor %}
+    </table>
     {% endif %}
 
-    {% if imgs|length > 0 %}
-      {% for im in imgs %}
-        <img src="{{im}}" style="width:300px;"/>
+
+    <div class="w3-card-4" style="margin-top:20px;margin-bottom:20px;width:70%;border: 1px solid #5CB85C;" >
+
+    <header class="w3-container">
+      <h1>Attire Characteristics</h1>
+    </header>
+    <div class="w3-container" style="padding-bottom:20px;">
+      {% for item in conceptDictList %}
+        {{ item|join(", ") }}
       {% endfor %}
+    </div>
+    </div>
     {% endif %}
+
+
 </center>
 {%endblock%}

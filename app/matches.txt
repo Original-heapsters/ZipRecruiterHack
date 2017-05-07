@@ -1,0 +1,13 @@
+Account Representative:61
+Business Advertiser1:64
+Brand Ambassador1:56
+Insurance Sales Associtate:48
+Account Manager9:87
+Customer Service8:56
+Party Assistant7:26
+Account Manager6:49
+Lead Carpenter5:66
+Business Analyst4:36
+Account Manager3:43
+Account Manager2:73
+Account Manager1:68

@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 
-<body>
+<body style="background-color:#EBEDEF">
   <!--<img href="{{ url_for('index') }}" src="{{ url_for('static', filename='icon.png')}}" style="float:left;">-->
   <div id="header">
       <!--<h1>JohtZee</h1>-->
@@ -18,11 +18,10 @@
     <img href="{{ url_for('index') }}" src="{{ url_for('static', filename='profile.png')}}" style="width:100%;">
     <a class="w3-bar-item w3-button" href="{{ url_for('index') }}" class="">Dashboard</a>
     <a class="w3-bar-item w3-button" href="{{ url_for('JobListing') }}" class="">Notifications</a>
-    <a class="w3-bar-item w3-button" href="{{ url_for('ResumeRating') }}" class="">Upload Resume</a>
-    <a class="w3-bar-item w3-button" href="{{ url_for('InterviewPreparedness') }}" class="">Upload Images</a>
+    <a class="w3-bar-item w3-button" href="{{ url_for('ResumeRating') }}" class="">Check Resume</a>
+    <a class="w3-bar-item w3-button" href="{{ url_for('InterviewPreparedness') }}" class="">Prepare for an interview</a>
     <a class="w3-bar-item w3-button" href="{{ url_for('JobListing') }}" class="">Job Listings</a>
-    <a class="w3-bar-item w3-button" href="{{ url_for('InterviewPreparedness') }}" class="">Success Chart</a>
-    <a class="w3-bar-item w3-button" href="{{ url_for('ResumeRating') }}" class="">Account Settings</a>
+    <a class="w3-bar-item w3-button" href="{{ url_for('Settings') }}" class="">Account Settings</a>
   </div>
   <div style="margin-left:17%">
   {% block body %}{% endblock %}

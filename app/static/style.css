@@ -1,5 +1,5 @@
 #header {
-			 background-color:#FFFFFF;
+			 background-color:white;
 			 color:#B5E61D;
 			 text-align:left;
 			 padding:5px;
@@ -16,6 +16,7 @@
 			 width:1080px;
 			 float:left;
 			 padding:10px;
+			 background-color:#EBEDEF;
 	 }
 	 #footer {
 			 background-color:black;
@@ -32,7 +33,7 @@
 }
 .boxed {
 	margin-top: 50px;
-	width: 772px;
+	width: 900px;
   border: 1px solid #3F48DD ;
 }
 

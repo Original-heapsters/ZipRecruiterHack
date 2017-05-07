@@ -32,8 +32,9 @@ def getResumeJSON(inputPath):
         inputPath = os.path.join(home + '\static\uploads\\' + filename)
         command = 'powershell ' + home + '\..\..\ResumeParser\ResumeTransducer\createJSON_Win.ps1 ' + inputPath + ' ' + outfile
     else:
-        outfile = os.path.join(home + 'static/ResumeJSON/out.json')
-        command = 'sh ' + home + '../../ResumeParser/ResumeTransducer/CreateJSON.sh ' + inputPath + ' ' + outfile
+        inputPath = home + '/' + inputPath
+        outfile = os.path.join(home + '/static/ResumeJSON/out.json')
+        command = 'sh ' + home + '/../../ResumeParser/ResumeTransducer/CreateJSON.sh ' + inputPath + ' ' + outfile
     os.system(command)
 
     with open(outfile) as data_file:
@@ -87,6 +88,12 @@ def getSentiments(jsonInput):
             if 'text' in entry:
                 allSentences.append(item[entry].encode('utf-8').split('.'))
                 alltext += item[entry].encode('utf-8')
+    outFile = os.path.join('ResumeText.txt')
+    open(outFile, 'w').close()
+
+    with open (outFile, 'w') as write:
+        write.write(alltext)
+        write.close()
     sentiment.getSentiments(alltext)
     sent = sentiment.sentiments
     return sent
@@ -128,6 +135,8 @@ def writeAnalysis(missingComps, contribution, workExp, sentiments, skills,educat
     home += '/static/ResumeJSON/'
     outFile = home + 'ResumeAnalysis.txt'
 
+    open(outFile, 'w').close()
+
     with open (outFile, 'w') as write:
         for missing in missingComps:
             write.write('missing:' + missing + '\n')
@@ -143,6 +152,7 @@ def writeAnalysis(missingComps, contribution, workExp, sentiments, skills,educat
 
         write.write('work_experience:' + str(workExp) + '\n')
         write.write('education_level:'+ str(education) + '\n')
+        write.close()
 
     return
 

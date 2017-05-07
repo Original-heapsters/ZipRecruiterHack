@@ -1,46 +1,29 @@
 {% extends "layout.html" %} {% block body %}
 <center>
-    <img href="{{ url_for('index') }}" src="{{ url_for('static', filename='resumeScore.png')}}">
+    <img href="{{ url_for('index') }}" src="{{ url_for('static', filename='job_search.png')}}">
     <br>
     <br>
-    <img href="{{ url_for('index') }}" src="{{ url_for('static', filename='icon.png')}}">
 </center>
 <br>
 <br>
 <center>
-    <table style="outline:solid thin;color:#FF7F27;width:100%;border-color:#FF7F27">
+    <table style="outline:solid thin;color:#FF7F27;width:55%;border-color:#FF7F27">
+
         <tr style="outline:solid thin; color:#FF7F27">
-            <th style="color:#FF7F27">Job Position</th>
-            <th style="color:#FF7F27">Match Success</th>
+              <th style="color:#FF7F27;text-align:left;"><h2>Job Position</h2></th>
+              <th style="color:#FF7F27;text-align:left;"><h2>Match Success</h2></th>
         </tr>
-        <tr>
-            <td style="color:#FF7F27">Account Manager</td>
-            <td style="color:#FF7F27">99%</td>
-        </tr>
-        <tr>
-            <td style="color:#FF7F27">Account Manager</td>
-            <td style="color:#FF7F27">99%</td>
-        </tr>
-        <tr>
-            <td style="color:#FF7F27">Account Manager</td>
-            <td style="color:#FF7F27">99%</td>
-        </tr>
-        <tr>
-            <td style="color:#FF7F27">Account Manager</td>
-            <td style="color:#FF7F27">99%</td>
-        </tr>
-        <tr>
-            <td style="color:#FF7F27">Account Manager</td>
-            <td style="color:#FF7F27">99%</td>
-        </tr>
-        <tr>
-            <td style="color:#FF7F27">Account Manager</td>
-            <td style="color:#FF7F27">99%</td>
-        </tr>
-        <tr>
-            <td style="color:#FF7F27">Account Manager</td>
-            <td style="color:#FF7F27">99%</td>
-        </tr>
+        {% if jobs|length > 0 %}
+          {% for job,score in jobs|dictsort(true,'value')|reverse %}
+          <tr>
+                <td style="color:#FF7F27"><h2>{{ job }}</h2></td>
+              <center>
+                <td style="color:#FF7F27"><h2>{{ score }}</h2></td>
+            </center>
+          </tr>
+          {% endfor %}
+        {% endif %}
+
     </table>
 </center>
 {%endblock%}

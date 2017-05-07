@@ -4,9 +4,9 @@
     <div class="boxed">
         <table>
             <tr>
-                <td style="padding:0 20px 0 20px;"> Overall Score: {{ resScore }}%</td>
-                <td style="padding:0 20px 0 20px;"><a href="{{ url_for('UploadResume') }}"> Load Revised Resume</a></td>
-                <td style="padding:0 20px 0 20px;"> Last Run: {{ updated }}</td>
+                <td style="padding:0 10px 0 10px;"><h3> Overall Score: {{ resScore }}%</h3></td>
+                <td style="padding:0 10px 0 10px;"><a href="{{ url_for('UploadResume') }}"><h3> Load Revised Resume</h3></a></td>
+                <td style="padding:0 10px 0 10px;"><h3> Last Run: {{ updated }}</h3></td>
             </tr>
         </table>
     </div>
@@ -70,7 +70,7 @@
                         <h3 style="color:#3F48DD">"...{{ badSent }}""</h3>
                       {% endfor %}
                     {% endif %}
-                    {%if workExp is not none %}
+                    {%if '0' not in workExp|string() %}
                       <h2 style="color:#3F48DD">Work Experience:</h2>
                       <h3 style="color:#3F48DD">{{ workExp  }}</h3>
                     {% endif %}
